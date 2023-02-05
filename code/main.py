@@ -24,9 +24,7 @@ def main():
     # fig, _ = plot.plot_counts(counts, dump["title"])
     # fig.tight_layout()
 
-    reacts = read.count_reactions(dump)
-    print(reacts)
-
+    plot.plot_reacts(read.count_reactions(dump))
     plt.show()
 
 
