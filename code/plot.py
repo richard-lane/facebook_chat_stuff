@@ -43,6 +43,7 @@ def plot_reacts(
         for count in counts.values():
             reacts[i].append(count)
 
+    # Scale if we need to
     if total_counts is not None:
         totals = list(total_counts.values())
         for i, _ in enumerate(total_counts):
@@ -50,10 +51,10 @@ def plot_reacts(
                 reacts[i][j] = reacts[i][j] / totals[j]
 
     # Plot the matrix of counts
-    fig, axis = plt.subplots()
+    fig, axis = plt.subplots(figsize=(10, 10))
     axis.matshow(reacts)
 
-    # Show the raw numbers only if we aren't scaling
+    # Show the raw numbers on the grid
     for (i, j), z in np.ndenumerate(reacts):
         axis.text(j, i, f"{z:.3f}", ha="center", va="center")
 

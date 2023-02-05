@@ -36,6 +36,14 @@ def count_messages(data: dict) -> dict:
     return message_counts
 
 
+def parse_emoji(emoji: str) -> str:
+    """
+    Demangle the broken weird facebook emojis
+
+    """
+    return emoji.encode("latin1").decode("utf-8")
+
+
 def count_reactions(data: dict, *, return_strs: bool = False) -> dict:
     """
     Take a dump of JSON data, count how many messages each participant reacted to
@@ -61,7 +69,7 @@ def count_reactions(data: dict, *, return_strs: bool = False) -> dict:
                 reactor = reaction["actor"]
                 try:
                     if return_strs:
-                        react_str = reaction["reaction"]
+                        react_str = parse_emoji(reaction["reaction"])
                         try:
                             react_counts[reactor][reactee][react_str] += 1
                         except KeyError:

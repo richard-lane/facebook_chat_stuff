@@ -2,6 +2,7 @@
 Main driver code for whatever I decide to do
 
 """
+from pprint import pprint
 import matplotlib.pyplot as plt
 
 # My stuff
@@ -25,6 +26,11 @@ def main():
     plot.plot_reacts(read.count_reactions(dump))
 
     plot.plot_reacts(read.count_reactions(dump), total_counts=counts)
+
+    # Get a dict of dicts of who reacted to who
+    reacts = read.count_reactions(dump, return_strs=True)
+    pprint(reacts)
+
     plt.show()
 
 
