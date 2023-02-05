@@ -2,7 +2,6 @@
 Utils for reading message info from the JSON dump
 
 """
-import os
 import json
 
 
@@ -63,28 +62,11 @@ def count_reactions(data: dict) -> dict:
             pass
 
     return react_counts
+    # data_dump = read_message_data(frog_data_file)
 
+    # message_counts = count_messages(data_dump)
+    # print(message_counts)
+    # plot_counts(message_counts, data_dump["title"], "Message Counts")
 
-def main():
-    wap_data_file = "../messages/inbox/starseedsforwaps_ngoe_w6-eq/message_1.json"
-    frog_data_file = (
-        "../messages/archived_threads/forbiddenfroggy_yjdoqdemew/message_1.json"
-    )
-    data_dump = read_message_data(frog_data_file)
-
-    message_counts = count_messages(data_dump)
-    print(message_counts)
-    plot_counts(message_counts, data_dump["title"], "Message Counts")
-
-    react_counts = count_reactions(data_dump)
-    plot_counts(react_counts, data_dump["title"], "React Counts")
-
-    # reacts_per_message = dict()
-    # for participant in data_dump["participants"]:
-    #    name = participant["name"]
-    #    reacts_per_message.update({name: react_counts[name] / message_counts[name]})
-    # plot_counts(reacts_per_message, data_dump["title"], "Reacts per Message")
-
-
-if __name__ == "__main__":
-    main()
+    # react_counts = count_reactions(data_dump)
+    # plot_counts(react_counts, data_dump["title"], "React Counts")
