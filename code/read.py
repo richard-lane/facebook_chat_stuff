@@ -40,33 +40,32 @@ def count_reactions(data: dict) -> dict:
     """
     Take a dump of JSON data, count how many messages each participant reacted to
 
-    Returns dict {reacter:count}
+    Returns dict {reacter: {reactee: count}}
 
     """
     # Create a dict of participant:message count
-    react_counts = {d["name"]: 0 for d in data["participants"]}
+    participants = tuple(person["name"] for person in data["participants"])
+
+    react_counts = {d: {n: 0 for n in participants} for d in participants}
 
     # Iterate over every message finding who reacted to it and incrementing each counter
     for message in data["messages"]:
         try:
             reactions = message["reactions"]
+            reactee = message["sender_name"]
             for reaction in reactions:
-                reacter = reaction["actor"]
+                reactor = reaction["actor"]
                 try:
-                    react_counts[reacter] += 1
+                    react_counts[reactor][reactee] += 1
+
                 except KeyError:
                     # Reacter has left the group
-                    react_counts.update({reacter: 1})
+                    # Could add logic for this but for now let's
+                    # just raise because it shouldn't happen
+                    raise
+
         except KeyError:
             # Message has no reactions
             pass
 
     return react_counts
-    # data_dump = read_message_data(frog_data_file)
-
-    # message_counts = count_messages(data_dump)
-    # print(message_counts)
-    # plot_counts(message_counts, data_dump["title"], "Message Counts")
-
-    # react_counts = count_reactions(data_dump)
-    # plot_counts(react_counts, data_dump["title"], "React Counts")

@@ -21,3 +21,10 @@ def plot_counts(data: dict, title: str) -> Tuple[plt.Figure, plt.Axes]:
     axis.set_title(title)
 
     return fig, axis
+
+
+def plot_reacts(react_counts: dict) -> Tuple[plt.Figure, plt.Axes]:
+    """
+    Plot grid of reactions
+
+    """
