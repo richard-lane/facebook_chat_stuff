@@ -3,6 +3,7 @@ Utils for reading message info from the JSON dump
 
 """
 import json
+import wordcloud
 
 
 def read_dump(json_path: str) -> dict:
@@ -89,3 +90,24 @@ def count_reactions(data: dict, *, return_strs: bool = False) -> dict:
             pass
 
     return react_counts
+
+
+def word_cloud(data: dict, name: str) -> wordcloud.WordCloud:
+    """
+    Create a word cloud of a users messages
+
+    """
+    participants = tuple(person["name"] for person in data["participants"])
+    assert name in participants
+
+    text = []
+    for msg in data["messages"]:
+        try:
+            if msg["sender_name"] == name:
+                text.append(msg["content"])
+        except KeyError:
+            ...
+
+    text = " ".join(text)
+
+    return wordcloud.WordCloud().generate(text)

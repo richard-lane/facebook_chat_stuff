@@ -21,8 +21,13 @@ def main():
 
     dump = read.read_dump(path)
 
+    max_wc = plot.word_cloud(dump, "Max Bedford")
+    richard_wc = plot.word_cloud(dump, "Richard Lane")
+    holly_wc = plot.word_cloud(dump, "Holly Graham")
+    mac_wc = plot.word_cloud(dump, "Macauley Curtis")
+
     counts = read.count_messages(dump)
-    count_plot,_ = plot.plot_counts(counts, dump["title"])
+    count_plot, _ = plot.plot_counts(counts, dump["title"])
 
     react_plot, _ = plot.plot_reacts(read.count_reactions(dump))
 
@@ -47,6 +52,15 @@ def main():
     st.write("what reactions does everyone use")
     st.write("I got bored here so it isnt nicely formatted")
     st.write(pformat(reacts))
+
+    st.write(
+        "word clouds. The weird characters are becuaes emojis get processed badly, and I cba to fix it rn"
+    )
+
+    st.write(max_wc)
+    st.write(richard_wc)
+    st.write(holly_wc)
+    st.write(mac_wc)
 
 
 if __name__ == "__main__":

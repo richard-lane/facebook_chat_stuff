@@ -6,6 +6,8 @@ from typing import Tuple
 import numpy as np
 import matplotlib.pyplot as plt
 
+import read
+
 
 def plot_counts(data: dict, title: str) -> Tuple[plt.Figure, plt.Axes]:
     """
@@ -81,3 +83,18 @@ def plot_reacts(
     fig.tight_layout()
 
     return fig, axis
+
+
+def word_cloud(data: dict, name: str) -> plt.Figure:
+    """
+    Wordcloud for a user
+
+    """
+    cloud = read.word_cloud(data, name)
+
+    fig, axis = plt.subplots(figsize=(8, 8))
+    axis.imshow(cloud)
+
+    fig.suptitle(name)
+
+    return fig
