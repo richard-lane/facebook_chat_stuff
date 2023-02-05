@@ -20,11 +20,11 @@ def main():
     dump = read.read_dump(path)
 
     counts = read.count_messages(dump)
-
-    # fig, _ = plot.plot_counts(counts, dump["title"])
-    # fig.tight_layout()
+    plot.plot_counts(counts, dump["title"])
 
     plot.plot_reacts(read.count_reactions(dump))
+
+    plot.plot_reacts(read.count_reactions(dump), total_counts=counts)
     plt.show()
 
 
