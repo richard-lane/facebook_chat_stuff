@@ -36,7 +36,7 @@ def count_messages(data: dict) -> dict:
     return message_counts
 
 
-def count_reactions(data: dict) -> dict:
+def count_reactions(data: dict, *, return_strs: bool = False) -> dict:
     """
     Take a dump of JSON data, count how many messages each participant reacted to
 
@@ -46,7 +46,11 @@ def count_reactions(data: dict) -> dict:
     # Create a dict of participant:message count
     participants = tuple(person["name"] for person in data["participants"])
 
-    react_counts = {d: {n: 0 for n in participants} for d in participants}
+    # Dict of dicts if we're not returning strs
+    # If we are returning strs, dict of dict of dicts
+    react_counts = {
+        d: {n: {} if return_strs else 0 for n in participants} for d in participants
+    }
 
     # Iterate over every message finding who reacted to it and incrementing each counter
     for message in data["messages"]:
@@ -56,7 +60,15 @@ def count_reactions(data: dict) -> dict:
             for reaction in reactions:
                 reactor = reaction["actor"]
                 try:
-                    react_counts[reactor][reactee] += 1
+                    if return_strs:
+                        react_str = reaction["reaction"]
+                        try:
+                            react_counts[reactor][reactee][react_str] += 1
+                        except KeyError:
+                            react_counts[reactor][reactee][react_str] = 1
+
+                    else:
+                        react_counts[reactor][reactee] += 1
 
                 except KeyError:
                     # Reacter has left the group
